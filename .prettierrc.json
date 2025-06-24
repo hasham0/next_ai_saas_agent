@@ -1,0 +1,34 @@
+{
+  "semi": true,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 80,
+
+  "plugins": [
+    "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+
+  "importOrder": [
+    "^\\./.*\\.css$",
+    "",
+    "^react$",
+    "^next$",
+    "^next/(.*)$",
+    "^react-icons/(.*)$",
+    "^@core/(.*)$",
+    "^lucide-react$",
+    "<THIRD_PARTY_MODULES>",
+    "^[./]",
+    "^@actions/(.*)$",
+    "^@/(.*)$",
+    "^@ui/(.*)$"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderParserPlugins": ["typescript", "jsx", "decorators-legacy"],
+  "importOrderTypeScriptVersion": "5.0.0",
+  "importOrderCaseSensitive": true,
+  "tailwindFunctions": ["clsx", "cn"]
+}
