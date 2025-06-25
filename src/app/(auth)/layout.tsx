@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "%s | Meet_ai Agent",
+  title: {
+    default: "Meet_ai Agent",
+    template: "%s | Meet_ai Agent",
+  },
 };
-
 export default function AuthLayout({
   children,
 }: Readonly<{
