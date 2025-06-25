@@ -35,7 +35,7 @@ const DashboardNavbar = () => {
         <Button
           variant={"outline"}
           size={"sm"}
-          onClick={() => setCommandOpen((opne) => !opne)}
+          onClick={() => setCommandOpen((open) => !open)}
           className="text-muted-foreground hover:text-muted-foreground h-9 w-[240px] justify-start font-normal"
         >
           <SearchIcon />
