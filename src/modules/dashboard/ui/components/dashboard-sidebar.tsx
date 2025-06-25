@@ -66,12 +66,12 @@ const DashboardSidebar = () => {
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton
                     asChild
+                    isActive={pathname === item.href}
                     className={cn(
                       "from-sidebar-accent via-sidebar/50 to-sidebar/50 h-10 border border-transparent from-5% via-30% hover:border-[#5D6B68]/10 hover:bg-linear-to-r/oklch",
                       pathname === item.href &&
                         "border-[#5D6B68]/10 bg-linear-to-r/oklch"
                     )}
-                    isActive={pathname === item.href}
                   >
                     <Link href={item.href}>
                       <item.icon className="size-5" />
@@ -95,12 +95,12 @@ const DashboardSidebar = () => {
                 <SidebarMenuItem key={item.href}>
                   <SidebarMenuButton
                     asChild
+                    isActive={pathname === item.href}
                     className={cn(
                       "from-sidebar-accent via-sidebar/50 to-sidebar/50 h-10 border border-transparent from-5% via-30% hover:border-[#5D6B68]/10 hover:bg-linear-to-r/oklch",
                       pathname === item.href &&
                         "border-[#5D6B68]/10 bg-linear-to-r/oklch"
                     )}
-                    isActive={pathname === item.href}
                   >
                     <Link href={item.href}>
                       <item.icon className="size-5" />
@@ -115,7 +115,7 @@ const DashboardSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="mb-5 text-white">
+      <SidebarFooter className="mb-4 text-white">
         <DashboardUserButton />
       </SidebarFooter>
     </Sidebar>

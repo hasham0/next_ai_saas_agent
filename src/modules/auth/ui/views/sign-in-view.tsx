@@ -176,8 +176,8 @@ const SignInView = () => {
                     disabled={pending}
                     variant={"outline"}
                     type="button"
-                    className="w-full"
                     onClick={() => handleSocialButton("google")}
+                    className="w-full"
                   >
                     <FaGoogle />
                   </Button>
@@ -185,8 +185,8 @@ const SignInView = () => {
                     disabled={pending}
                     variant={"outline"}
                     type="button"
-                    className="w-full"
                     onClick={() => handleSocialButton("github")}
+                    className="w-full"
                   >
                     <FaGithub />
                   </Button>
