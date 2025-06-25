@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import { OctagonAlertIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -22,8 +23,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 
-type Props = {};
-
 // =>> SIGN-IN FORM VALIDATION SCHEMA
 const formSchema = z.object({
   email: z.string().email(),
@@ -32,8 +31,9 @@ const formSchema = z.object({
   }),
 });
 
-const SignInView = ({}: Props) => {
+const SignInView = () => {
   const router = useRouter();
+
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -50,22 +50,57 @@ const SignInView = ({}: Props) => {
   ) => {
     setError(null);
     setPending(true);
-    authClient.signIn.email(
-      {
-        email: data.email,
-        password: data.password,
-      },
-      {
-        onSuccess: () => {
-          setPending(false);
-          router.push("/");
+    try {
+      authClient.signIn.email(
+        {
+          email: data.email,
+          password: data.password,
+          callbackURL: "/",
         },
-        onError: ({ error }) => {
-          setPending(false);
-          setError(error.message);
+        {
+          onSuccess: () => {
+            setPending(false);
+            router.push("/");
+          },
+          onError: ({ error }) => {
+            setPending(false);
+            setError(error.message);
+          },
+        }
+      );
+    } catch (error) {
+      setPending(false);
+      setError(
+        (error as Error).message ||
+          "An unexpected error occurred. Please try again."
+      );
+    }
+  };
+
+  const handleSocialButton = async (provider: "github" | "google") => {
+    try {
+      await authClient.signIn.social(
+        {
+          provider: provider,
+          callbackURL: "/",
         },
-      }
-    );
+        {
+          onSuccess: () => {
+            setPending(false);
+          },
+          onError: ({ error }) => {
+            setPending(false);
+            setError(error.message);
+          },
+        }
+      );
+    } catch (error) {
+      setPending(false);
+      setError(
+        (error as Error).message ||
+          "An unexpected error occurred in social auth. Please try again."
+      );
+    }
   };
 
   return (
@@ -142,23 +177,25 @@ const SignInView = ({}: Props) => {
                     variant={"outline"}
                     type="button"
                     className="w-full"
+                    onClick={() => handleSocialButton("google")}
                   >
-                    Google
+                    <FaGoogle />
                   </Button>
                   <Button
                     disabled={pending}
                     variant={"outline"}
                     type="button"
                     className="w-full"
+                    onClick={() => handleSocialButton("github")}
                   >
-                    Github
+                    <FaGithub />
                   </Button>
                 </div>
                 <div className="text-center text-sm">
                   Don&apos;t have an account? &nbsp;
                   <Link
                     href={"/sign-up"}
-                    className="underline underline-offset-4"
+                    className="underline-offset-4 hover:text-blue-700 hover:underline"
                   >
                     Sign Up
                   </Link>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import { OctagonAlertIcon } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -22,8 +23,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 
-type Props = {};
-
 // =>> SIGN-UP FORM VALIDATION SCHEMA
 const formSchema = z
   .object({
@@ -31,11 +30,17 @@ const formSchema = z
       message: "Name is required",
     }),
     email: z.string().email(),
-    password: z.string().min(1, {
-      message: "Password is required",
-    }),
+    password: z
+      .string()
+      .min(8, {
+        message: "Password must be at least 8 characters",
+      })
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, {
+        message:
+          "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+      }),
     confirmPassword: z.string().min(1, {
-      message: "Password is required",
+      message: "Please confirm your password",
     }),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -43,7 +48,7 @@ const formSchema = z
     path: ["confirmPassword"],
   });
 
-const SignUpView = ({}: Props) => {
+const SignUpView = () => {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -63,23 +68,58 @@ const SignUpView = ({}: Props) => {
   ) => {
     setError(null);
     setPending(true);
-    authClient.signUp.email(
-      {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      },
-      {
-        onSuccess: () => {
-          setPending(false);
-          router.push("/");
+    try {
+      authClient.signUp.email(
+        {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          callbackURL: "/",
         },
-        onError: ({ error }) => {
-          setPending(false);
-          setError(error.message);
+        {
+          onSuccess: () => {
+            setPending(false);
+            router.push("/");
+          },
+          onError: ({ error }) => {
+            setPending(false);
+            setError(error.message);
+          },
+        }
+      );
+    } catch (error) {
+      setPending(false);
+      setError(
+        (error as Error).message ||
+          "An unexpected error occurred. Please try again."
+      );
+    }
+  };
+
+  const handleSocialButton = async (provider: "github" | "google") => {
+    try {
+      await authClient.signIn.social(
+        {
+          provider: provider,
+          callbackURL: "/",
         },
-      }
-    );
+        {
+          onSuccess: () => {
+            setPending(false);
+          },
+          onError: ({ error }) => {
+            setPending(false);
+            setError(error.message);
+          },
+        }
+      );
+    } catch (error) {
+      setPending(false);
+      setError(
+        (error as Error).message ||
+          "An unexpected error occurred in social auth. Please try again."
+      );
+    }
   };
 
   return (
@@ -192,23 +232,25 @@ const SignUpView = ({}: Props) => {
                     variant={"outline"}
                     type="button"
                     className="w-full"
+                    onClick={() => handleSocialButton("google")}
                   >
-                    Google
+                    <FaGoogle />
                   </Button>
                   <Button
                     disabled={pending}
                     variant={"outline"}
                     type="button"
                     className="w-full"
+                    onClick={() => handleSocialButton("github")}
                   >
-                    Github
+                    <FaGithub />
                   </Button>
                 </div>
                 <div className="text-center text-sm">
                   Already have an account? &nbsp;
                   <Link
                     href={"/sign-in"}
-                    className="underline underline-offset-4"
+                    className="underline-offset-4 hover:text-blue-700 hover:underline"
                   >
                     Sign In
                   </Link>
