@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ChevronDownIcon, CreditCardIcon, LogOutIcon } from "lucide-react";
+import { GeneratedAvatar } from "@/components/shared/generated-avatar";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { GeneratedAvatar } from "@/components/ui/generated-avatar";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { authClient } from "@/lib/auth-client";
 

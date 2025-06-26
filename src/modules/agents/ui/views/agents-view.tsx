@@ -8,7 +8,7 @@ import { useTRPC } from "@/trpc/client";
 const AgentsViewLoading = () => (
   <LoadingState
     title="Loading Agents"
-    description="Thismay take a few seconds"
+    description="This may take a few seconds"
   />
 );
 
@@ -18,7 +18,6 @@ const AgentsPageError = () => (
 const AgentsView = () => {
   const trpc = useTRPC();
   const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions());
-
   return <div>{JSON.stringify(data, null, 2)}</div>;
 };
 
