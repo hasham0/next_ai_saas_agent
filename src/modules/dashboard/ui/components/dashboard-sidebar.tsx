@@ -50,8 +50,14 @@ const DashboardSidebar = () => {
   return (
     <Sidebar>
       <SidebarHeader className="text-sidebar-accent-foreground">
-        <Link href={"/"} className="flex items-center gap-2 pt-2">
-          <Image src="/assets/logo.svg" alt="Meet AI" width={32} height={32} />
+        <Link href={"/"} className="flex items-center gap-2 pt-2 pl-4">
+          <Image
+            src="/assets/logo.svg"
+            alt="Meet AI"
+            width={32}
+            height={32}
+            // className="h-auto w-auto"
+          />
           <p className="text-2xl font-semibold">Meet.AI</p>
         </Link>
       </SidebarHeader>
