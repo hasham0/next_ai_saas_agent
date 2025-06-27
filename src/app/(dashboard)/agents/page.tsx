@@ -7,8 +7,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import { auth } from "@/lib/auth";
 import AgentsListHeader from "@/modules/agents/ui/components/agents-list-header";
 import {
-  AgentsPageError,
   AgentsView,
+  AgentsViewError,
   AgentsViewLoading,
 } from "@/modules/agents/ui/views/agents-view";
 import loadSearchParams from "@/modules/agents/utils/params";
@@ -38,7 +38,7 @@ export default async function AgentsPage({ searchParams }: Props) {
       <AgentsListHeader />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Suspense fallback={<AgentsViewLoading />}>
-          <ErrorBoundary fallback={<AgentsPageError />}>
+          <ErrorBoundary fallback={<AgentsViewError />}>
             <AgentsView />
           </ErrorBoundary>
         </Suspense>
