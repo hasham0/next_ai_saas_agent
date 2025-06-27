@@ -23,11 +23,11 @@ import { useTRPC } from "@/trpc/client";
 
 type Props = {
   initialValues?: AgentGetOne;
-  onSucces?: () => void;
+  onSuccess?: () => void;
   onCancel?: () => void;
 };
 
-const AgentForm = ({ initialValues, onSucces, onCancel }: Props) => {
+const AgentForm = ({ initialValues, onSuccess, onCancel }: Props) => {
   const trpc = useTRPC();
   const queryClient = useQueryClient();
   const createAgent = useMutation(
@@ -39,7 +39,7 @@ const AgentForm = ({ initialValues, onSucces, onCancel }: Props) => {
             trpc.agents.getOne.queryOptions({ id: initialValues.id })
           );
         }
-        onSucces?.();
+        onSuccess?.();
       },
       onError: (error) => {
         console.error("🚀 ~ AgentForm ~ error:", error);
