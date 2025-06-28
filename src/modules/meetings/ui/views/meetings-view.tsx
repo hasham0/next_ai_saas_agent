@@ -5,7 +5,6 @@ import ErrorState from "@/components/shared/error-state";
 import LoadingState from "@/components/shared/loading-state";
 import { useTRPC } from "@/trpc/client";
 
-type Props = {};
 const MeetingsViewLoading = () => (
   <LoadingState
     title="Loading Meetings"
@@ -19,10 +18,14 @@ const MeetingsViewError = () => (
     description="Something went wrong"
   />
 );
-const MeetingsView = ({}: Props) => {
+const MeetingsView = () => {
   const trpc = useTRPC();
   const { data } = useSuspenseQuery(trpc.meetings.getMany.queryOptions({}));
-  return <div>{JSON.stringify(data)}</div>;
+  return (
+    <div className="w-md overflow-hidden border-2 border-black">
+      <div className="max-w-md">{JSON.stringify(data)}</div>
+    </div>
+  );
 };
 
 export { MeetingsView, MeetingsViewLoading, MeetingsViewError };
