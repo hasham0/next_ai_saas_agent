@@ -7,7 +7,7 @@ import { DataTable } from "@/components/shared/data-table";
 import EmptyState from "@/components/shared/empty-state";
 import ErrorState from "@/components/shared/error-state";
 import LoadingState from "@/components/shared/loading-state";
-import useaMeetingFilters from "@/modules/meetings/hooks/use-meetings-filters";
+import useMeetingsFilter from "@/modules/meetings/hooks/use-meetings-filters";
 import { columns } from "@/modules/meetings/ui/components/columns";
 import { useTRPC } from "@/trpc/client";
 
@@ -26,7 +26,7 @@ const MeetingsViewError = () => (
 );
 const MeetingsView = () => {
   const router = useRouter();
-  const [filters, setFilters] = useaMeetingFilters();
+  const [filters, setFilters] = useMeetingsFilter();
 
   const trpc = useTRPC();
   const {

@@ -21,20 +21,25 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 type Props = {
-  agentId: string;
-  agentName: string;
+  meetingId: string;
+  meetingName: string;
   onEdit: () => void;
   onRemove: () => void;
 };
 
-const AgentIdViewHeader = ({ agentId, agentName, onEdit, onRemove }: Props) => {
+const MeetingIdViewHeader = ({
+  meetingId,
+  meetingName,
+  onEdit,
+  onRemove,
+}: Props) => {
   return (
     <div className="flex items-center justify-between">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild className="text-xl font-medium">
-              <Link href={"/agents"}>My Agents</Link>
+              <Link href={"/meetings"}>My Meetings</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="text-muted-foreground text-xl font-medium [&>svg]:size-4">
@@ -42,7 +47,7 @@ const AgentIdViewHeader = ({ agentId, agentName, onEdit, onRemove }: Props) => {
           </BreadcrumbSeparator>
           <BreadcrumbItem>
             <BreadcrumbLink asChild className="text-xl font-medium">
-              <Link href={`/agents/${agentId}`}>{agentName}</Link>
+              <Link href={`/meetings/${meetingId}`}>{meetingName}</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
         </BreadcrumbList>
@@ -68,4 +73,4 @@ const AgentIdViewHeader = ({ agentId, agentName, onEdit, onRemove }: Props) => {
   );
 };
 
-export default AgentIdViewHeader;
+export default MeetingIdViewHeader;

@@ -18,11 +18,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { agentsInsertSchema } from "@/modules/agents/schema/schema";
-import { AgentGetOne } from "@/modules/agents/types";
+import { AgentsGetOne } from "@/modules/agents/types";
 import { useTRPC } from "@/trpc/client";
 
 type Props = {
-  initialValues?: AgentGetOne;
+  initialValues?: AgentsGetOne;
   onSuccess?: () => void;
   onCancel?: () => void;
 };
