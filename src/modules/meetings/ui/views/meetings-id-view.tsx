@@ -9,10 +9,14 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 import ErrorState from "@/components/shared/error-state";
-import { GeneratedAvatar } from "@/components/shared/generated-avatar";
 import LoadingState from "@/components/shared/loading-state";
 import useConfirm from "@/hooks/use-confirm";
+import { MeetingStatus } from "@/modules/meetings/types";
+import ActiveState from "@/modules/meetings/ui/components/active-state";
+import CancelledState from "@/modules/meetings/ui/components/cancelled-state";
 import MeetingIdViewHeader from "@/modules/meetings/ui/components/meeting-id-view-header";
+import ProcessingState from "@/modules/meetings/ui/components/processing-state";
+import UpcomingState from "@/modules/meetings/ui/components/upcoming-state";
 import UpdateMeetingDialog from "@/modules/meetings/ui/components/update-meeting-dialog";
 import { useTRPC } from "@/trpc/client";
 
@@ -41,6 +45,12 @@ const MeetingIdView = ({ meetingId }: Props) => {
   const { data } = useSuspenseQuery(
     trpc.meetings.getOne.queryOptions({ id: meetingId })
   );
+
+  const isActive = data.status === MeetingStatus.Active;
+  const isUpcoming = data.status === MeetingStatus.Upcoming;
+  const isCancelled = data.status === MeetingStatus.Cancelled;
+  const isCompleted = data.status === MeetingStatus.Completed;
+  const isProcessing = data.status === MeetingStatus.Processing;
 
   const removeMeeting = useMutation(
     trpc.meetings.remove.mutationOptions({
@@ -82,18 +92,17 @@ const MeetingIdView = ({ meetingId }: Props) => {
           onEdit={() => setUpdateMeetingDialogOpen(true)}
           onRemove={handleRemoveMeeting}
         />
-        <div className="rounded-lg border bg-white">
-          <div className="col-span-5 flex flex-col gap-y-5 px-4 py-5">
-            <div className="flex items-center gap-x-3">
-              <GeneratedAvatar
-                variant="botttsNeutral"
-                seed={data.name}
-                className="size-10"
-              />
-              <h2 className="text-2xl font-medium">{data.name}</h2>
-            </div>
-          </div>
-        </div>
+        {isUpcoming && (
+          <UpcomingState
+            meetingId={meetingId}
+            isCalling={false}
+            onCancelMeeting={() => {}}
+          />
+        )}
+        {isActive && <ActiveState meetingId={meetingId} />}
+        {isCancelled && <CancelledState />}
+        {isProcessing && <ProcessingState />}
+        {isCompleted && <>Completed</>}
       </div>
     </>
   );
