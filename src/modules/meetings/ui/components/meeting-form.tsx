@@ -90,7 +90,6 @@ const MeetingForm = ({ initialValues, onSuccess, onCancel }: Props) => {
     z.infer<typeof meetingsInsertSchema>
   > = (data) => {
     if (isEdit) {
-      console.log("TODO : Update Meeting");
       updateMeeting.mutate({ ...data, id: initialValues?.id });
     } else {
       createMeeting.mutate(data);

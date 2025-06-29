@@ -78,7 +78,6 @@ const AgentForm = ({ initialValues, onSuccess, onCancel }: Props) => {
     data
   ) => {
     if (isEdit) {
-      console.log("TODO : Update agent");
       updateAgent.mutate({ ...data, id: initialValues?.id });
     } else {
       createAgent.mutate(data);
