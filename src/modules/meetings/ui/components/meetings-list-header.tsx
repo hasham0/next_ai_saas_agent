@@ -49,7 +49,7 @@ const MeetingsListHeader = () => {
               </Button>
             )}
           </div>
-          <ScrollBar orientation="vertical" />
+          <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
     </>

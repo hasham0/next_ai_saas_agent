@@ -124,7 +124,7 @@ const MeetingForm = ({ initialValues, onSuccess, onCancel }: Props) => {
                 <FormMessage />
               </FormItem>
             )}
-          />{" "}
+          />
           <FormField
             name="agentId"
             control={form.control}
