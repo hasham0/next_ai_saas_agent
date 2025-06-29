@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import CommandSelect from "@/components/shared/command-select";
 import { GeneratedAvatar } from "@/components/shared/generated-avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +22,6 @@ import { Input } from "@/components/ui/input";
 import NewAgentDialog from "@/modules/agents/ui/components/new-agent-dialog";
 import { meetingsInsertSchema } from "@/modules/meetings/schema/schema";
 import { MeetingGetOne } from "@/modules/meetings/types";
-import CommandSelect from "@/modules/meetings/ui/components/command-select";
 import { useTRPC } from "@/trpc/client";
 
 type Props = {
