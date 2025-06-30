@@ -12,7 +12,6 @@ type Props = { params: Promise<{ meetingId: string }> };
 
 export default async function MeetingIDPage({ params }: Props) {
   const { meetingId } = await params;
-
   const queryClient = getQueryClient();
   void queryClient.prefetchQuery(
     trpc.meetings.getOne.queryOptions({ id: meetingId })
