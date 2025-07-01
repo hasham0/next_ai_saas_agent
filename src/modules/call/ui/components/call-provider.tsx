@@ -16,7 +16,7 @@ const CallProvider = ({ meetingId, meetingName }: Props) => {
   if (!data || isPending) {
     return (
       <div className="from-sidebar-accent to-sidebar flex h-screen items-center justify-center bg-radial">
-        <LoaderIcon className="size-6 animate-spin text-white" />;
+        <LoaderIcon className="size-6 animate-spin text-white" />
       </div>
     );
   }

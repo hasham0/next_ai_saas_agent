@@ -120,50 +120,65 @@ const meetingsRouter = createTRPCRouter({
         })
         .returning();
 
-      const call = streamVideo.video.call("default", createdMeeting.id);
-      await call.create({
-        data: {
-          created_by_id: ctx.auth.user.id,
-          custom: {
-            meetingId: createdMeeting.id,
-            meetingName: createdMeeting.name,
-          },
-          settings_override: {
-            transcription: {
-              language: "en",
-              mode: "auto-on",
-              closed_caption_mode: "auto-on",
+      try {
+        const call = streamVideo.video.call("default", createdMeeting.id);
+        await call.create({
+          data: {
+            created_by_id: ctx.auth.user.id,
+            custom: {
+              meetingId: createdMeeting.id,
+              meetingName: createdMeeting.name,
             },
-            recording: {
-              mode: "auto-on",
-              quality: "1080p",
+            settings_override: {
+              transcription: {
+                language: "en",
+                mode: "auto-on",
+                closed_caption_mode: "auto-on",
+              },
+              recording: {
+                mode: "auto-on",
+                quality: "1080p",
+              },
             },
           },
-        },
-      });
+        });
 
-      const [existingAgent] = await db
-        .select()
-        .from(agents)
-        .where(eq(agents.id, createdMeeting.agentId));
+        const [existingAgent] = await db
+          .select()
+          .from(agents)
+          .where(eq(agents.id, createdMeeting.agentId));
 
-      if (!existingAgent) {
-        throw new TRPCError({ code: "NOT_FOUND", message: "Agent not found" });
+        if (!existingAgent) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Agent not found",
+          });
+        }
+
+        await streamVideo.upsertUsers([
+          {
+            id: existingAgent.id,
+            name: existingAgent.name,
+            role: "user",
+            image: generateAvatarUri({
+              seed: existingAgent.name,
+              variant: "botttsNeutral",
+            }),
+          },
+        ]);
+
+        return createdMeeting;
+      } catch (error) {
+        console.error(
+          "Failed to create video call for meeting:",
+          createdMeeting.id,
+          error
+        );
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to initialize video call",
+        });
       }
-
-      await streamVideo.upsertUsers([
-        {
-          id: existingAgent.id,
-          name: existingAgent.name,
-          role: "user",
-          image: generateAvatarUri({
-            seed: existingAgent.name,
-            variant: "botttsNeutral",
-          }),
-        },
-      ]);
-
-      return createdMeeting;
     }),
 
   update: protectedProcedure
