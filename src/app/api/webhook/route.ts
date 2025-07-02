@@ -154,7 +154,7 @@ export async function POST(request: NextRequest) {
     }
     await db
       .update(meetings)
-      .set({ recodingUrl: event.call_recording.url })
+      .set({ recordingUrl: event.call_recording.url })
       .where(eq(meetings.id, meetingId));
   }
 

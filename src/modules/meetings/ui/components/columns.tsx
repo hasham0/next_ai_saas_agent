@@ -10,19 +10,10 @@ import {
 } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import humanizeDuration from "humanize-duration";
 import { GeneratedAvatar } from "@/components/shared/generated-avatar";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { cn, formatDuration } from "@/lib/utils";
 import { MeetingGetMany } from "@/modules/meetings/types";
-
-const functionDuration = (seconds: number) => {
-  return humanizeDuration(seconds * 1000, {
-    largest: 1,
-    round: true,
-    units: ["y", "mo", "w", "d", "h", "m", "s"],
-  });
-};
 
 const statusIconMap = {
   upcoming: ClockArrowUpIcon,
@@ -105,7 +96,7 @@ export const columns: ColumnDef<MeetingGetMany[number]>[] = [
           <ClockFadingIcon className="text-blue-700" />
           <span className="text-muted-foreground">
             {row.original.duration
-              ? functionDuration(row.original.duration)
+              ? formatDuration(row.original.duration)
               : "No duration"}
           </span>
         </Badge>
